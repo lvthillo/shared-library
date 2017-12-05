@@ -22,7 +22,7 @@ def call(body) {
             stage('test') {
                 steps {
                     echo env.VAR
-                }
+                } 
             }
 
             /*stage('build') {
