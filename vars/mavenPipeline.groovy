@@ -6,16 +6,19 @@ def call(body) {
     body()
 
     pipeline {
-        stage('checkout git') {
-         	steps {
-          		git branch: pipelineParams.branch, credentialsId: 'pipelineParams.scmCredentials', url: pipelineParams.scmUrl
-           	}
-       	}
+    	agent any
+        stages {
+	        stage('checkout git') {
+	         	steps {
+	          		git branch: pipelineParams.branch, credentialsId: pipelineParams.scmCredentials, url: pipelineParams.scmUrl
+	           	}
+	       	}
 
-		stage('build') {
-      		steps {
-				sh 'mvn clean package -DskipTests=true'
-            }
-        }
+			stage('build') {
+	      		steps {
+					sh 'mvn clean package -DskipTests=true'
+	            }
+	        }
+	   	}
     }
 }
