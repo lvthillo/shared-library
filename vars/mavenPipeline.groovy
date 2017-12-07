@@ -14,10 +14,6 @@ def call(body) {
 
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
-        tools {
-            maven 'Maven 3.5.2'
-        }
-
         stages {
             stage('checkout git') {
 	        steps {
@@ -43,7 +39,7 @@ def call(body) {
                         def server = Artifactory.server "jfrog-artifactory"
                         def rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
-                        rtMaven.tool = 'Maven 3.3.9'
+                        rtMaven.tool = 'Maven 3.5.2'
                         def buildInfo = rtMaven.run pom: '${POMPATH}', goals: 'clean install'
                         server.publishBuildInfo buildInfo
                     }
