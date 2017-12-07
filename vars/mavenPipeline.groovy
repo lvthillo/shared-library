@@ -45,7 +45,9 @@ def call(body) {
             }*/
 
             stage('Upload to Artifactory') {
-                upload()
+                steps {
+                    upload()
+                }
             }
 
 
