@@ -12,7 +12,7 @@ def call(body) {
             VAR = 'test'        
         }
 
-        parameters { booleanParam(name: 'EXECUTE_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
+        parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
         stages {
             stage('checkout git') {
@@ -30,6 +30,25 @@ def call(body) {
             stage('build') {
                 steps {	
                     sh 'mvn clean package -DskipTests=${EXECUTE_TESTS}'
+                }
+            }
+
+            stage('Upload') {              
+                steps {
+                    script {
+                        def server = Artifactory.server "jfrog-artifactory"
+                        def rtMaven = Artifactory.newMavenBuild()
+                        rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
+                        rtMaven.tool = 'Maven 3.3.9'
+                        def buildInfo = rtMaven.run pom: '${POMPATH}', goals: 'clean install'
+                        server.publishBuildInfo buildInfo
+                    }
+                }
+            }
+
+            stage('Clean') {
+                steps {
+                    cleanWs()
                 }
             }
         }
