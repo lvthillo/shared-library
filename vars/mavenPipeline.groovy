@@ -31,7 +31,7 @@ def call(body) {
                 }
             }
 
-            stage('Upload') {              
+            /*stage('Upload') {              
                 steps {
                     script {
                         def server = Artifactory.server "jfrog-artifactory"
@@ -42,7 +42,12 @@ def call(body) {
                         server.publishBuildInfo buildInfo
                     }
                 }
+            }*/
+
+            stage('Upload to Artifactory') {
+                upload()
             }
+
 
             stage('Clean') {
                 steps {
