@@ -15,7 +15,7 @@ def call(body) {
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
         tools {
-            maven 'Maven 3.3.9'
+            maven 'Maven 3.5.2'
         }
 
         stages {
