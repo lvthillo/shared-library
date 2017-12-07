@@ -12,6 +12,8 @@ def call(body) {
             VAR = 'test'        
         }
 
+        parameters { booleanParam(name: 'EXECUTE_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
+
         stages {
             stage('checkout git') {
 	        steps {
@@ -25,11 +27,11 @@ def call(body) {
                 } 
             }
 
-            /*stage('build') {
+            stage('build') {
                 steps {	
-                    sh 'mvn clean package -DskipTests=true'
+                    sh 'mvn clean package -DskipTests=${EXECUTE_TESTS}'
                 }
-            }*/
+            }
         }
     }
 }
