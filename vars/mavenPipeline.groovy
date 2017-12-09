@@ -34,7 +34,7 @@ def call(body) {
                         rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
                         rtMaven.tool = 'Maven 3.5.2'
-                        buildInfo = rtMaven.run pom: pipelineParams.pom, goals: 'clean install'
+                        buildInfo = rtMaven.run pom: pipelineParams.pom, goals: 'clean install -DskipTests=$SKIP_TESTS'
                     }
                 }
             }
