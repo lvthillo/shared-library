@@ -6,6 +6,7 @@ def call(body) {
     body()
 
     def rtMaven = ''
+    def buildInfo = ''
 
     pipeline {
         agent any
@@ -30,7 +31,7 @@ def call(body) {
             stage('Maven Build') {
                 steps {	
                 	rtMaven = Artifactory.newMavenBuild()
-                    buildInfo = rtMaven.run pom: env.POM, goals: 'clean install'
+                    buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
                 }
             }
 
