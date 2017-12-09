@@ -29,7 +29,7 @@ def call(body) {
 
             stage('Maven Build') {
                 steps {	
-                    buildInfo = rtMaven.run pom: 'env.POM', goals: 'clean install'
+                    buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
                 }
             }
 
