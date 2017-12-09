@@ -5,7 +5,7 @@ def call(body) {
     body.delegate = pipelineParams
     body()
 
-    def buildInfo
+    def buildInfo = ''
 
     pipeline {
         agent any
@@ -15,7 +15,7 @@ def call(body) {
         }
 
         environment {
-            POM = 'pom.xml'        
+            POM = 'pom.xml'      
         }
 
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
