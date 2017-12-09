@@ -23,17 +23,17 @@ def call(body) {
 
         stages {
             stage('Checkout git repository') {
-	        steps {
+	            steps {
                     git branch: pipelineParams.branch, credentialsId: pipelineParams.scmCredentials, url: pipelineParams.scmUrl
                 }
             }
 
             stage('Maven Build') {
                 steps {	
-                	script {
-                		rtMaven = Artifactory.newMavenBuild()
-                		rtMaven.tool = 'Maven 3.5.2'
-                    	buildInfo = rtMaven.run pom: pipelineParams.pom goals: 'clean install --DskipTests=${SKIP_TESTS}'
+                    script {
+                	    rtMaven = Artifactory.newMavenBuild()
+                	    rtMaven.tool = 'Maven 3.5.2'
+                        buildInfo = rtMaven.run pom: pipelineParams.pom goals: 'clean install --DskipTests=$SKIP_TESTS'
                     }
                 }
             }
