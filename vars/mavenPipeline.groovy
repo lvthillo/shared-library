@@ -5,7 +5,7 @@ def call(body) {
     body.delegate = pipelineParams
     body()
 
-    def buildInfo = ''
+    def rtMaven = ''
 
     pipeline {
         agent any
