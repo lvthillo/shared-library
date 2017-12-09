@@ -32,6 +32,7 @@ def call(body) {
                 steps {	
                 	script {
                 		rtMaven = Artifactory.newMavenBuild()
+                		rtMaven.tool = 'Maven 3.5.2'
                     	buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
                     }
                 }
@@ -42,7 +43,6 @@ def call(body) {
                     script {
                         def server = Artifactory.server "jfrog-artifactory"
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
-                        rtMaven.tool = 'Maven 3.5.2'
                         server.publishBuildInfo buildInfo
                     }
                 }
