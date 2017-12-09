@@ -1,5 +1,5 @@
 def call(body) {
-	def rtMaven = ''
+    def rtMaven = ''
     def buildInfo = ''
     def server = ''
 
@@ -30,7 +30,7 @@ def call(body) {
             stage('Maven Build') {
                 steps {	
                     script {
-                	    server = Artifactory.server "jfrog-artifactory"
+                	server = Artifactory.server "jfrog-artifactory"
                         rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
                         rtMaven.tool = 'Maven 3.5.2'
