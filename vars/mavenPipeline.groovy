@@ -22,7 +22,7 @@ def call(body) {
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
         stages {
-            stage('Checkout git repository') {
+            stage('Checkout Git repository') {
 	            steps {
                     git branch: pipelineParams.branch, credentialsId: pipelineParams.scmCredentials, url: pipelineParams.scmUrl
                 }
@@ -51,10 +51,8 @@ def call(body) {
         }
 
         post {
-            stage('Clean Workspace') {
-                steps {
-                    cleanWs()
-                }
+            always {
+                cleanWs()
             }
         }
     }
