@@ -33,7 +33,7 @@ def call(body) {
                     script {
                 	    rtMaven = Artifactory.newMavenBuild()
                 	    rtMaven.tool = 'Maven 3.5.2'
-                        buildInfo = rtMaven.run pom: 'pom.xml' goals: 'clean install --DskipTests=$SKIP_TESTS'
+                        buildInfo = rtMaven.run pom: pipelineParams.pom, goals: 'clean install --DskipTests=$SKIP_TESTS'
                     }
                 }
             }
