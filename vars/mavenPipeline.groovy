@@ -1,6 +1,7 @@
 def call(body) {
 	def rtMaven = ''
     def buildInfo = ''
+    def server = ''
 
     // evaluate the body block, and collect configuration into the object
     def pipelineParams= [:]
@@ -29,9 +30,11 @@ def call(body) {
             stage('Maven Build') {
                 steps {	
                     script {
-                	    rtMaven = Artifactory.newMavenBuild()
-                	    rtMaven.tool = 'Maven 3.5.2'
-                        buildInfo = rtMaven.run pom: pipelineParams.pom, goals: 'clean install -DskipTests=$SKIP_TESTS'
+                	    server = Artifactory.server "jfrog-artifactory"
+                        tMaven = Artifactory.newMavenBuild()
+                        rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
+                        rtMaven.tool = 'Maven 3.3.9'
+                        buildInfo = rtMaven.run pom: '${POMPATH}', goals: 'clean install'
                     }
                 }
             }
@@ -39,8 +42,6 @@ def call(body) {
             stage('Upload') {              
                 steps {
                     script {
-                        def server = Artifactory.server "jfrog-artifactory"
-                        rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
                         server.publishBuildInfo buildInfo
                     }
                 }
