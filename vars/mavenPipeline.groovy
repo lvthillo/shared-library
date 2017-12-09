@@ -48,8 +48,10 @@ def call(body) {
                 }
             }
 
+        }
 
-            stage('Clean') {
+        post {
+            stage('Clean Workspace') {
                 steps {
                     cleanWs()
                 }
