@@ -15,11 +15,9 @@ def call(body) {
             buildDiscarder(logRotator(numToKeepStr: '3'))
         }
 
-        environment {
-            TEST = 'ok'      
+        parameters { 
+            booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') 
         }
-
-        parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
         stages {
             stage('Checkout Git repository') {
@@ -47,7 +45,6 @@ def call(body) {
                     }
                 }
             }
-
         }
 
         post {
