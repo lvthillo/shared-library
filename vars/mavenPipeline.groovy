@@ -1,12 +1,12 @@
 def call(body) {
+	def rtMaven = ''
+    def buildInfo = ''
+
     // evaluate the body block, and collect configuration into the object
     def pipelineParams= [:]
     body.resolveStrategy = Closure.DELEGATE_FIRST
     body.delegate = pipelineParams
     body()
-
-    def rtMaven = ''
-    def buildInfo = ''
 
     pipeline {
         agent any
@@ -30,8 +30,10 @@ def call(body) {
 
             stage('Maven Build') {
                 steps {	
-                	rtMaven = Artifactory.newMavenBuild()
-                    buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+                	script {
+                		rtMaven = Artifactory.newMavenBuild()
+                    	buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+                    }
                 }
             }
 
