@@ -31,7 +31,7 @@ def call(body) {
                 steps {	
                     script {
                 	    server = Artifactory.server "jfrog-artifactory"
-                        tMaven = Artifactory.newMavenBuild()
+                        rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
                         rtMaven.tool = 'Maven 3.3.9'
                         buildInfo = rtMaven.run pom: '${POMPATH}', goals: 'clean install'
