@@ -5,6 +5,8 @@ def call(body) {
     body.delegate = pipelineParams
     body()
 
+    def buildInfo
+
     pipeline {
         agent any
 
@@ -19,34 +21,27 @@ def call(body) {
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
 
         stages {
-            stage('checkout git') {
+            stage('Checkout git repository') {
 	        steps {
                     git branch: pipelineParams.branch, credentialsId: pipelineParams.scmCredentials, url: pipelineParams.scmUrl
                 }
             }
 
-            stage('build') {
+            stage('Maven Build') {
                 steps {	
-                    sh 'mvn clean package -f ${POM} -DskipTests=${SKIP_TESTS}'
+                    buildInfo = rtMaven.run pom: 'env.POM', goals: 'clean install'
                 }
             }
 
-            /*stage('Upload') {              
+            stage('Upload') {              
                 steps {
                     script {
                         def server = Artifactory.server "jfrog-artifactory"
                         def rtMaven = Artifactory.newMavenBuild()
                         rtMaven.deployer server: server, releaseRepo: 'company-release', snapshotRepo: 'company-snapshot'
                         rtMaven.tool = 'Maven 3.5.2'
-                        def buildInfo = rtMaven.run pom: env.POM, goals: 'clean install'
                         server.publishBuildInfo buildInfo
                     }
-                }
-            }*/
-
-            stage('Upload to Artifactory') {
-                steps {
-                    upload()
                 }
             }
 
