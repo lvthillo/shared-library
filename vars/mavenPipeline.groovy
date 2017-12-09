@@ -16,7 +16,7 @@ def call(body) {
         }
 
         environment {
-            POM = 'pom.xml'      
+            TEST = 'ok'      
         }
 
         parameters { booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Check if you want to skip tests') }
@@ -33,7 +33,7 @@ def call(body) {
                 	script {
                 		rtMaven = Artifactory.newMavenBuild()
                 		rtMaven.tool = 'Maven 3.5.2'
-                    	buildInfo = rtMaven.run pom: 'pom.xml', goals: 'clean install'
+                    	buildInfo = rtMaven.run pom: pipelineParams.pom goals: 'clean install --DskipTests=${SKIP_TESTS}'
                     }
                 }
             }
