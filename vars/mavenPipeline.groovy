@@ -53,6 +53,7 @@ def call(body) {
         post {
             always {
                 cleanWs()
+                slackNotifier(currentBuild.currentResult)
             }
         }
     }
