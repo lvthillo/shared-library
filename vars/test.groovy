@@ -27,7 +27,7 @@ def call(body) {
                         accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                         secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
                     ],
-                    usernamePassword(credentialsId: 'creds-'+params.APP+'-id', usernameVariable: 'USER_NAME_2', passwordVariable: 'PASSWORD_2'),
+                    usernamePassword(credentialsId: 'creds-'+env.APP+'-id', usernameVariable: 'USER_NAME_2', passwordVariable: 'PASSWORD_2'),
                         ]){
                             sh './script.sh'
                     }   
